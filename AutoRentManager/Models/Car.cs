@@ -51,7 +51,6 @@ namespace AutoRentManager.Models
 
         [Required]
         public TransmissionTypes TransmissionType { get; set; }
-
         public ICollection<Reservation> Reservations { get; set; }
             = new List<Reservation>();
     }
