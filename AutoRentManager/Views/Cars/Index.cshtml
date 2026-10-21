@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AutoRentManager.Models.Car>
+@{
+    ViewData["Title"] = "Cars";
+}
+<h1>Cars list</h1>
+
+@if(!Model.Any())
+{
+    <p>No cars available.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Price Per Day</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@car.ImageUrl"
+                             alt="@car.Brand @car.Model"
+                             style="width: 120px; height: 80px; object-fit: cover;" />
+                    </td>
+                    <td>@car.Brand</td>
+                    <td>@car.Model</td>
+                    <td>@car.Year</td>
+                    <td>@car.PricePerDay</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
