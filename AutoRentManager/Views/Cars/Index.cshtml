@@ -18,7 +18,7 @@ else
                 <th>Model</th>
                 <th>Year</th>
                 <th>Price Per Day</th>
-               
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,12 +29,28 @@ else
                         <img src="@car.ImageUrl"
                              alt="@car.Brand @car.Model"
                              style="width: 120px; height: 80px; object-fit: cover;" />
-                    </td>
+                    </td>                   
                     <td>@car.Brand</td>
                     <td>@car.Model</td>
                     <td>@car.Year</td>
-                    <td>@car.PricePerDay</td>
-                    
+                    <td>@car.PricePerDay</td>   
+                    <td>
+                        <a asp-action="Details"
+                           asp-route-id="@car.Id"
+                           class="btn btn-info">
+                            Details
+                        </a>
+                        <a asp-action="Edit"
+                           asp-route-id="@car.Id"
+                           class="btn btn-warning">
+                            Edit
+                        </a>
+                        <a asp-action="Delete"
+                           asp-route-id="@car.Id"
+                           class="btn btn-danger">
+                            Delete
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

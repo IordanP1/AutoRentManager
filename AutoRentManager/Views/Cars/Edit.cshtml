@@ -1,0 +1,91 @@
+﻿@model AutoRentManager.Models.Car
+
+@{
+    ViewData["Title"] = "Edit Car";
+}
+<h1>Edit Car</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="Brand" class="form-label">Brand</label>
+        <input asp-for="Brand" class="form-control" />
+        <span asp-validation-for="Brand" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Model" class="form-label">Model</label>
+        <input asp-for="Model" class="form-control" />
+        <span asp-validation-for="Model" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Year" class="form-label">Year</label>
+        <input asp-for="Year" class="form-control" />
+        <span asp-validation-for="Year" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Category" class="form-label">Category</label>
+        <select asp-for="Category"
+                asp-items="Html.GetEnumSelectList<AutoRentManager.Enums.CarCategoryType.CarCategoryTypes>()">
+        </select>
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="RegistrationNumber" class="form-label">Registration Number</label>
+        <input asp-for="RegistrationNumber" class="form-control" />
+        <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PricePerDay" class="form-label">Price Per Day</label>
+        <input asp-for="PricePerDay" class="form-control" />
+        <span asp-validation-for="PricePerDay" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="FuelType" class="form-label">Fuel Type</label>
+        <select asp-for="FuelType"
+                asp-items="Html.GetEnumSelectList<AutoRentManager.Enums.FuelType.FuelTypes>()">
+        </select>
+        <span asp-validation-for="FuelType" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="TransmissionType" class="form-label">Transmission Type</label>
+        <select asp-for="TransmissionType"
+                asp-items="Html.GetEnumSelectList<AutoRentManager.Enums.TransmissionType.TransmissionTypes>()">
+        </select>
+        <span asp-validation-for="TransmissionType" class="text-danger"></span>
+    </div>
+
+         
+    <div class="mb-3">
+        <label asp-for="ImageUrl" class="form-label"></label>
+        <select asp-for="ImageUrl" class="form-select">
+            <option value="">Select an image</option>
+            <option value="/images/cars/bmw340i.jpg">BMW 340i</option>
+            <option value="/images/cars/bmw760l.jpg">BMW 760l</option>
+            <option value="/images/cars/bmwM5Comp.jpg">BMW M5comp</option>
+            <option value="/images/cars/bmwX5m.jpg">BMW X5m</option>
+            <option value="/images/cars/van.jpg">Van</option>
+        </select>
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
