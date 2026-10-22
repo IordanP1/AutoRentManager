@@ -29,3 +29,30 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.home-hero {
+    background: linear-gradient(135deg, #17202a, #34495e);
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+}
+
+.car-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .car-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12) !important;
+    }
+
+.car-image {
+    height: 230px;
+    width: 100%;
+    object-fit: cover;
+}
+
+#available-cars {
+    scroll-margin-top: 90px;
+}

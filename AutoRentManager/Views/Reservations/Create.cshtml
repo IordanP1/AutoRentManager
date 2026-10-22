@@ -1,0 +1,84 @@
+﻿@using AutoRentManager.Models
+@{
+    ViewData["Title"] = "Reserve a Car";
+    var car = ViewBag.Car as Car;
+}
+
+<h1>Reserve a Car</h1>
+
+@if (car != null)
+{
+    <div class="card mb-4" style="max-width: 500px;">
+        <img src="@car.ImageUrl"
+             class="card-img-top"
+             alt="@car.Brand @car.Model"
+             style="height: 220px; object-fit: cover;" />
+
+        <div class="card-body">
+            <h4>@car.Brand @car.Model</h4>
+            <p>Year: @car.Year</p>
+            <p>Price per day: @car.PricePerDay.ToString("F2")</p>
+        </div>
+    </div>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <form asp-controller="Reservations" asp-action="Create" method="post">
+        <input type="hidden" name="CarId" value="@car.Id" />
+
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input name="FirstName" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input name="LastName" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="Email" type="email" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input name="PhoneNumber" type="tel" class="form-control" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Start Date</label>
+            <input id="startDate" name="StartDate" type="date" class="form-control"
+                   min="@DateTime.Today.ToString("yyyy-MM-dd")"  required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">End Date</label>
+            <input id="endDate" name="EndDate" type="date" class="form-control"
+                   min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+        </div>
+        <script>
+            const startDate = document.getElementById("startId");
+            const endDate = document.getElementById("endDate");
+
+            startDate.addEventListener("change",function () {
+                endDate.min = startDate.value;
+
+                if(endDate.value && endDate.value<=startDate.value)
+                {
+                    endDate.value="";
+                }
+            })
+        </script>
+
+        <button type="submit" class="btn btn-primary">Submit Reservation</button>
+
+        <a asp-controller="Home" asp-action="Index"
+           class="btn btn-secondary">Cancel</a>
+    </form>
+}

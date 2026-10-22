@@ -1,3 +1,4 @@
+using AutoRentManager.Data;
 using AutoRentManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,9 +7,15 @@ namespace AutoRentManager.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext dbContext;
+        public HomeController(ApplicationDbContext context)
+        {
+            this.dbContext = context;
+        }
         public IActionResult Index()
         {
-            return View();
+            var cars = dbContext.Cars.ToList();
+            return View(cars);
         }
 
         public IActionResult Privacy()

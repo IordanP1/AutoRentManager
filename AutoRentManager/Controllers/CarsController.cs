@@ -1,5 +1,6 @@
 ﻿using AutoRentManager.Data;
 using AutoRentManager.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoRentManager.Controllers
@@ -17,12 +18,14 @@ namespace AutoRentManager.Controllers
             return View(cars);
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(Car car)
         {
            
@@ -46,6 +49,7 @@ namespace AutoRentManager.Controllers
             return View(car);
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var car = dbContext.Cars.Find(id);
@@ -57,6 +61,7 @@ namespace AutoRentManager.Controllers
         }   
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id, Car car)
         {
             if (id!=car.Id)
@@ -73,6 +78,7 @@ namespace AutoRentManager.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var car = dbContext.Cars.Find(id);
@@ -83,6 +89,7 @@ namespace AutoRentManager.Controllers
             return View(car);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConformation(int id)
         {
             var car = dbContext.Cars.Find(id);

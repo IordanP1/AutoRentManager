@@ -1,0 +1,62 @@
+﻿@using AutoRentManager.ViewModels
+@model IEnumerable<ReservationViewModel>
+
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<h1 class="mb-4">Reservations</h1>
+
+@if (!Model.Any())
+{
+    <p>There are currently no reservations.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Car</th>
+                    <th>Customer</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reservation in Model)
+                {
+                    <tr>
+                        <td>@reservation.CarInfo</td>
+                        <td>@reservation.CustomerName</td>
+                        <td>@reservation.StartDate.ToString("dd.MM.yyyy")</td>
+                        <td>@reservation.EndDate.ToString("dd.MM.yyyy")</td>
+                        <td>@reservation.TotalPrice.ToString("F2")</td>
+                        <td>@reservation.Status</td>
+                        <td>
+                            @if (User.IsInRole("Admin") && reservation.Status == "Pending")
+                            {
+                                <form asp-controller="Reservations" asp-action="Confirm"
+                                      asp-route-id="@reservation.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Confirm
+                                    </button>
+                                </form>
+
+                                <form asp-controller="Reservations" asp-action="Cancel"
+                                      asp-route-id="@reservation.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Cancel
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

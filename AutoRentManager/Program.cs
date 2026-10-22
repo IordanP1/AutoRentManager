@@ -10,11 +10,38 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider
+        .GetRequiredService<RoleManager<IdentityRole>>();
+
+    var userManager = scope.ServiceProvider
+        .GetRequiredService<UserManager<IdentityUser>>();
+
+    if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
+    {
+        roleManager.CreateAsync(new IdentityRole("Admin"))
+            .GetAwaiter().GetResult();
+    }
+    var adminAcc = userManager
+        .FindByEmailAsync("admin@autorentmanager.com")
+        .GetAwaiter().GetResult();
+
+    if (adminAcc !=null && !userManager.IsInRoleAsync(adminAcc,"Admin").GetAwaiter().GetResult())
+    {
+        userManager.AddToRoleAsync(adminAcc, "Admin")
+            .GetAwaiter().GetResult();
+    }
+
+    
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,6 +59,7 @@ else
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
