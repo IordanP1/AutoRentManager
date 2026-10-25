@@ -4,25 +4,102 @@
     ViewData["Title"] = "Car Details";
 }
 
-<h1>Car Details</h1>
+<div class="container py-4">
+    <div class="mb-4">
+        <a asp-action="Index"
+           class="text-decoration-none text-muted">
+            ← Back to Cars
+        </a>
+    </div>
 
-<div class="card" style="max-width: 600px;">
-    <img src="@Model.ImageUrl"
-         class="card-img-top"
-         alt="@Model.Brand @Model.Model"
-         style="height: 300px; object-fit: cover;" />
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="row g-0">
 
-    <div class="card-body">
-        <h4 class="card-title">@Model.Brand @Model.Model</h4>
+            <div class="col-lg-6">
+                <img src="@Model.ImageUrl"
+                     alt="@Model.Brand @Model.Model"
+                     class="w-100 h-100"
+                     style="min-height: 350px; max-height: 500px; object-fit: cover;" />
+            </div>
 
-        <p><strong>Year:</strong> @Model.Year</p>
-        <p><strong>Category:</strong> @Model.Category</p>
-        <p><strong>Fuel:</strong> @Model.FuelType</p>
-        <p><strong>Transmission:</strong> @Model.TransmissionType</p>
-        <p><strong>Registration:</strong> @Model.RegistrationNumber</p>
-        <p><strong>Price per day:</strong> @Model.PricePerDay.ToString("F2") Euro</p>
-        <p><strong>Description:</strong> @Model.Description</p>
+            <div class="col-lg-6">
+                <div class="card-body p-4 p-lg-5">
 
-        <a asp-action="Index" class="btn btn-secondary">Back to Cars</a>
+                    <p class="text-muted mb-2">
+                        @Model.Year · @Model.Category
+                    </p>
+
+                    <h1 class="fw-bold mb-3">
+                        @Model.Brand @Model.Model
+                    </h1>
+
+                    <div class="mb-4">
+                        <span class="text-muted">Price per day</span>
+                        <h2 class="fw-bold text-primary">
+                            @Model.PricePerDay.ToString("F2") BGN
+                        </h2>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <h5 class="fw-bold">Description</h5>
+                        <p class="text-muted mb-4">
+                            @Model.Description
+                        </p>
+                    }
+
+                    <hr />
+
+                    <h5 class="fw-bold mb-3">Vehicle Information</h5>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <p class="text-muted small mb-1">Brand</p>
+                            <p class="fw-semibold">@Model.Brand</p>
+                        </div>
+
+                        <div class="col-6">
+                            <p class="text-muted small mb-1">Model</p>
+                            <p class="fw-semibold">@Model.Model</p>
+                        </div>
+
+                        <div class="col-6">
+                            <p class="text-muted small mb-1">Fuel Type</p>
+                            <p class="fw-semibold">@Model.FuelType</p>
+                        </div>
+
+                        <div class="col-6">
+                            <p class="text-muted small mb-1">Transmission</p>
+                            <p class="fw-semibold">@Model.TransmissionType</p>
+                        </div>
+
+                        <div class="col-12">
+                            <p class="text-muted small mb-1">
+                                Registration Number
+                            </p>
+                            <p class="fw-semibold">
+                                @Model.RegistrationNumber
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <a asp-controller="Reservations"
+                           asp-action="Create"
+                           asp-route-carId="@Model.Id"
+                           class="btn btn-primary px-4">
+                            Reserve This Car
+                        </a>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary px-4">
+                            Back to Cars
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>

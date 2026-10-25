@@ -1,84 +1,224 @@
 ﻿@using AutoRentManager.Models
+
 @{
     ViewData["Title"] = "Reserve a Car";
     var car = ViewBag.Car as Car;
 }
 
-<h1>Reserve a Car</h1>
-
-@if (car != null)
-{
-    <div class="card mb-4" style="max-width: 500px;">
-        <img src="@car.ImageUrl"
-             class="card-img-top"
-             alt="@car.Brand @car.Model"
-             style="height: 220px; object-fit: cover;" />
-
-        <div class="card-body">
-            <h4>@car.Brand @car.Model</h4>
-            <p>Year: @car.Year</p>
-            <p>Price per day: @car.PricePerDay.ToString("F2")</p>
-        </div>
-    </div>
-
-    @if (ViewBag.ErrorMessage != null)
+<div class="container py-4">
+    @if (car != null)
     {
-        <div class="alert alert-danger">
-            @ViewBag.ErrorMessage
+        <div class="mb-4">
+            <a asp-controller="Cars" asp-action="Details"
+               asp-route-id="@car.Id"
+               class="text-decoration-none">
+                &larr; Back to car details
+            </a>
+
+            <h1 class="mt-3 mb-2">Reserve your car</h1>
+            <p class="text-muted">
+                Enter your details and choose your rental dates.
+            </p>
+        </div>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="row g-4 align-items-start">
+            <div class="col-lg-5">
+                <div class="card shadow-sm border-0 overflow-hidden">
+                    <img src="@car.ImageUrl"
+                         class="card-img-top"
+                         alt="@car.Brand @car.Model"
+                         style="height: 280px; object-fit: cover;" />
+
+                    <div class="card-body p-4">
+                        <span class="badge text-bg-primary mb-2">
+                            Your selected car
+                        </span>
+
+                        <h3 class="mb-3">@car.Brand @car.Model</h3>
+
+                        <div class="d-flex justify-content-between py-2 border-bottom">
+                            <span class="text-muted">Year</span>
+                            <strong>@car.Year</strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between py-2">
+                            <span class="text-muted">Price per day</span>
+                            <strong class="text-primary">
+                                @car.PricePerDay.ToString("F2")
+                            </strong>
+                        </div>
+
+                        <p class="small text-muted mt-3 mb-0">
+                            The total price will depend on your selected rental period.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <h4 class="mb-1">Your information</h4>
+                        <p class="text-muted mb-4">
+                            All fields are required.
+                        </p>
+
+                        <form asp-controller="Reservations"
+                              asp-action="Create"
+                              method="post">
+
+                            <input type="hidden" name="CarId" value="@car.Id" />
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">
+                                        First name
+                                    </label>
+                                    <input id="firstName"
+                                           name="FirstName"
+                                           class="form-control"
+                                           autocomplete="given-name"
+                                           required />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">
+                                        Last name
+                                    </label>
+                                    <input id="lastName"
+                                           name="LastName"
+                                           class="form-control"
+                                           autocomplete="family-name"
+                                           required />
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="email" class="form-label">
+                                        Email address
+                                    </label>
+                                    <input id="email"
+                                           name="Email"
+                                           type="email"
+                                           class="form-control"
+                                           autocomplete="email"
+                                           required />
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="phoneNumber" class="form-label">
+                                        Phone number
+                                    </label>
+                                    <input id="phoneNumber"
+                                           name="PhoneNumber"
+                                           type="tel"
+                                           class="form-control"
+                                           pattern="[0-9]{10}"
+                                           maxlength="10"
+                                           inputmode="numeric"
+                                           placeholder="0123456789"
+                                           title="Enter exactly 10 digits."
+                                           autocomplete="tel"
+                                           required />
+                                    <div class="form-text">
+                                        Enter exactly 10 digits, without spaces.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="startDate" class="form-label">
+                                        Pick-up date
+                                    </label>
+                                    <input id="startDate"
+                                           name="StartDate"
+                                           type="date"
+                                           class="form-control"
+                                           min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                           required />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="endDate" class="form-label">
+                                        Return date
+                                    </label>
+                                    <input id="endDate"
+                                           name="EndDate"
+                                           type="date"
+                                           class="form-control"
+                                           min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")"
+                                           required />
+                                </div>
+                            </div>
+
+                            <div class="alert alert-light border mt-4 mb-4">
+                                <strong>Before you submit</strong>
+                                <p class="small text-muted mb-0 mt-1">
+                                    Your reservation will be checked for date conflicts.
+                                    Please make sure your contact details are correct.
+                                </p>
+                            </div>
+
+                            <div class="d-grid gap-2 d-sm-flex">
+                                <button type="submit"
+                                        class="btn btn-primary btn-lg flex-grow-1">
+                                    Submit reservation
+                                </button>
+
+                                <a asp-controller="Home"
+                                   asp-action="Index"
+                                   class="btn btn-outline-secondary btn-lg">
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     }
-
-    <form asp-controller="Reservations" asp-action="Create" method="post">
-        <input type="hidden" name="CarId" value="@car.Id" />
-
-        <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input name="FirstName" class="form-control" required />
+    else
+    {
+        <div class="alert alert-warning">
+            The selected car could not be found.
+            <a asp-controller="Cars" asp-action="Index">
+                Browse available cars
+            </a>
         </div>
+    }
+</div>
 
-        <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input name="LastName" class="form-control" required />
-        </div>
+@section Scripts {
+    <script>
+        const startDate = document.getElementById("startDate");
+        const endDate = document.getElementById("endDate");
 
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input name="Email" type="email" class="form-control" required />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Phone Number</label>
-            <input name="PhoneNumber" type="tel" class="form-control" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" required />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Start Date</label>
-            <input id="startDate" name="StartDate" type="date" class="form-control"
-                   min="@DateTime.Today.ToString("yyyy-MM-dd")"  required />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">End Date</label>
-            <input id="endDate" name="EndDate" type="date" class="form-control"
-                   min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
-        </div>
-        <script>
-            const startDate = document.getElementById("startId");
-            const endDate = document.getElementById("endDate");
-
-            startDate.addEventListener("change",function () {
-                endDate.min = startDate.value;
-
-                if(endDate.value && endDate.value<=startDate.value)
-                {
-                    endDate.value="";
+        if (startDate && endDate) {
+            startDate.addEventListener("change", function() {
+                if (!startDate.value) {
+                    endDate.min = "@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")";
+                    return;
                 }
-            })
-        </script>
 
-        <button type="submit" class="btn btn-primary">Submit Reservation</button>
+                const parts = startDate.value.split("-").map(Number);
+                const nextDay = new Date(parts[0], parts[1] - 1, parts[2]);
+                nextDay.setDate(nextDay.getDate() + 1);
 
-        <a asp-controller="Home" asp-action="Index"
-           class="btn btn-secondary">Cancel</a>
-    </form>
+                const year = nextDay.getFullYear();
+                const month = String(nextDay.getMonth() + 1).padStart(2, "0");
+                const day = String(nextDay.getDate()).padStart(2, "0");
+
+                endDate.min = `${year}-${month}-${day}`;
+
+                if (endDate.value && endDate.value < endDate.min) {
+                    endDate.value = "";
+                }
+            });
+        }
+    </script>
 }

@@ -1,76 +1,109 @@
 ﻿@model IEnumerable<AutoRentManager.Models.Car>
+
 @{
-    ViewData["Title"] = "Cars";
+    ViewData["Title"] = "Our Cars";
+    var cars = Model?.ToList() ?? new List<AutoRentManager.Models.Car>();
 }
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h1 class="fw-bold">Our Cars</h1>
-        <p class="text-muted mb-0">
-            Browse our available vehicles.
-        </p>
+
+<div class="cars-page">
+    <div class="cars-header">
+        <div>
+            <span class="cars-eyebrow">AUTORENTMANAGER</span>
+            <h1>Find your perfect ride.</h1>
+            <p>Explore our fleet and choose the right car for your next journey.</p>
+        </div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="cars-add-button">
+                <span>+</span> Add New Car
+            </a>
+        }
     </div>
 
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Create" class="btn btn-primary">
-            Add New Car
-        </a>
-    }
-</div>
+    <div class="cars-section-heading">
+        <div>
+            <h2>Our Fleet</h2>
+            <p>Choose from our available vehicles.</p>
+        </div>
 
-@if(!Model.Any())
-{
-    <p>No cars available.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Price Per Day</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var car in Model)
+        <span class="cars-count">
+            @cars.Count @(cars.Count == 1 ? "vehicle" : "vehicles")
+        </span>
+    </div>
+
+    @if (!cars.Any())
+    {
+        <div class="cars-empty">
+            <div class="cars-empty-icon">🚘</div>
+            <h3>No cars available yet</h3>
+            <p>Our fleet will appear here as soon as cars are added.</p>
+
+            @if (User.IsInRole("Admin"))
             {
-                <tr>
-                    <td>
+                <a asp-action="Create" class="cars-add-button">
+                    Add your first car
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="cars-grid">
+            @foreach (var car in cars)
+            {
+                <article class="car-card">
+                    <a asp-action="Details"
+                       asp-route-id="@car.Id"
+                       class="car-image-link">
                         <img src="@car.ImageUrl"
                              alt="@car.Brand @car.Model"
-                             style="width: 120px; height: 80px; object-fit: cover;" />
-                    </td>                   
-                    <td>@car.Brand</td>
-                    <td>@car.Model</td>
-                    <td>@car.Year</td>
-                    <td>@car.PricePerDay</td>   
-                    <td>
-                        <a asp-action="Details"
-                           asp-route-id="@car.Id"
-                           class="btn btn-info">
-                            Details
-                        </a>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-action="Edit"
+                             class="car-image"
+                             loading="lazy" />
+                    </a>
+
+                    <div class="car-card-body">
+                        <div class="car-title-row">
+                            <div>
+                                <h3>@car.Brand</h3>
+                                <p class="car-model">@car.Model</p>
+                            </div>
+
+                            <span class="car-year">@car.Year</span>
+                        </div>
+
+                        <div class="car-price">
+                            <span class="car-price-value">
+                                @car.PricePerDay.ToString("F2")
+                            </span>
+                            <span class="car-price-period">/ day</span>
+                        </div>
+
+                        <div class="car-card-actions">
+                            <a asp-action="Details"
                                asp-route-id="@car.Id"
-                               class="btn btn-warning">
-                                Edit
+                               class="car-details-button">
+                                View Details
                             </a>
-                            <a asp-action="Delete"
-                               asp-route-id="@car.Id"
-                               class="btn btn-danger">
-                                Delete
-                            </a>
-                        }
-                        
-                    </td>
-                </tr>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit"
+                                   asp-route-id="@car.Id"
+                                   class="car-admin-button edit">
+                                    Edit
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@car.Id"
+                                   class="car-admin-button delete">
+                                    Delete
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </article>
             }
-        </tbody>
-    </table>
-}
+        </div>
+    }
+</div>

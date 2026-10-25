@@ -90,7 +90,8 @@ namespace AutoRentManager.Controllers
                 CustomerId = customer.Id,
                 StartDate = StartDate,
                 EndDate = EndDate,
-                TotalPrice = totalPrice
+                TotalPrice = totalPrice,
+                Status = Enums.ReservationStatus.ReservationStatuses.Pending
             };
             dbContext.Reservations.Add(reservation);
             dbContext.SaveChanges();
