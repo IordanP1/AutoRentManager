@@ -72,6 +72,92 @@ namespace AutoRentManager.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cars");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Brand = "BMW",
+                            Category = 1,
+                            Description = "fast",
+                            FuelType = 0,
+                            ImageUrl = "/images/cars/bmw760l.jpg",
+                            Model = "760L",
+                            PricePerDay = 299.00m,
+                            RegistrationNumber = "CB0000AA",
+                            TransmissionType = 1,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Brand = "bmw",
+                            Category = 3,
+                            Description = "fast",
+                            FuelType = 0,
+                            ImageUrl = "/images/cars/bmw340i.jpg",
+                            Model = "340i",
+                            PricePerDay = 190.00m,
+                            RegistrationNumber = "CB0000AA",
+                            TransmissionType = 1,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Brand = "Bmw",
+                            Category = 2,
+                            Description = "Suv",
+                            FuelType = 0,
+                            ImageUrl = "/images/cars/bmwX5m.jpg",
+                            Model = "X5m",
+                            PricePerDay = 340.00m,
+                            RegistrationNumber = "CB0030AA",
+                            TransmissionType = 1,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Brand = "Van",
+                            Category = 4,
+                            Description = "Van you can drive around with all of your friends",
+                            FuelType = 2,
+                            ImageUrl = "/images/cars/van.jpg",
+                            Model = "Exotic",
+                            PricePerDay = 189.00m,
+                            RegistrationNumber = "CB0040AA",
+                            TransmissionType = 1,
+                            Year = 2025
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Brand = "BMW",
+                            Category = 3,
+                            Description = "Best 5-series",
+                            FuelType = 0,
+                            ImageUrl = "/images/cars/bmwM5Comp.jpg",
+                            Model = "M5comp",
+                            PricePerDay = 450.00m,
+                            RegistrationNumber = "CB1133AA",
+                            TransmissionType = 1,
+                            Year = 2022
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Brand = "BMW",
+                            Category = 3,
+                            Description = "Track beast",
+                            FuelType = 0,
+                            ImageUrl = "/images/cars/bmwM4.jpg",
+                            Model = "M4",
+                            PricePerDay = 359.00m,
+                            RegistrationNumber = "CB0000AA",
+                            TransmissionType = 1,
+                            Year = 2025
+                        });
                 });
 
             modelBuilder.Entity("AutoRentManager.Models.Customer", b =>
