@@ -53,16 +53,13 @@ The project was developed as part of the ASP.NET Fundamentals course at SoftUni.
 4. Restore the NuGet packages.
 5. Open a terminal in the project directory and apply the database migrations:
 
-   ```bash
    dotnet restore
    dotnet ef database update
-   ```
+
 
 6. Run the application:
 
-   ```bash
    dotnet run
-   ```
 
    Alternatively, run the project directly from Visual Studio.
 
@@ -73,10 +70,9 @@ Make sure SQL Server is running and the configured database connection is valid 
 The administrator account is intended for managing cars and reservations.
 
 - **Administrator email:** `admin@autorentmanager.com`
-- **Password:** `Admin123!`
+- **Password:** `YourPasswordHere!`
 
-If the application uses User Secrets to initialize the administrator account, configure the required `AdminSettings` values locally before running the application. The administrator setup must match the configuration and initialization logic implemented in the project.
-
+Note: The administrator account must be registered before administrative functionality can be accessed. The password is chosen during registration and is not stored in the repository.
 ## Project Structure
 
 - `Models` — entity models and validation rules.
