@@ -1,23 +1,21 @@
-﻿using AutoRentManager.Data.Data;
-using AutoRentManager.Data.Models;
-using AutoRentManager.Data.Enums;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AutoRentManager.Controllers
 {
+    using AutoRentManager.Services.Interfaces;
     using AutoRentManager.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     public class ReservationsController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
-        public ReservationsController(ApplicationDbContext context)
+        private readonly IReservationService reservationService;
+        public ReservationsController(IReservationService reservationService)
         {
-            this.dbContext = context;
+            this.reservationService = reservationService;
         }
         [HttpGet]
         public IActionResult Create(int carId)
         {
-            var car = dbContext.Cars.Find(carId);
+            var car = reservationService.GetCarById(carId);
             if (car==null)
             {
                 return NotFound();
@@ -28,7 +26,7 @@ namespace AutoRentManager.Controllers
         [HttpPost]
         public IActionResult Create(int carId,string FirstName,string LastName,string Email,string phoneNumber,DateTime StartDate, DateTime EndDate)
         {
-            var car = dbContext.Cars.Find(carId);
+            var car = reservationService.GetCarById(carId);
             if (car==null)
             {
                 return NotFound();
@@ -36,67 +34,20 @@ namespace AutoRentManager.Controllers
 
             ViewBag.Car = car;
 
-            if (string.IsNullOrWhiteSpace(FirstName)||string.IsNullOrWhiteSpace(LastName)||string.IsNullOrWhiteSpace(Email)||string.IsNullOrWhiteSpace(phoneNumber))
+            var result = reservationService.CreateReservation(
+                carId,
+                FirstName,
+                LastName,
+                Email,
+                phoneNumber,
+                StartDate,
+                EndDate);
+
+            if (!result.Success)
             {
-                ViewBag.ErrorMessage = "All fields are required!";
+                ViewBag.ErrorMessage = result.ErrorMessage;
                 return View();
             }
-            if (phoneNumber.Length!=10||!phoneNumber.All(char.IsDigit))
-            {
-                ViewBag.ErrorMessage = "Phone number must containt exactly 10 digits!";
-                return View();
-            }
-
-            if (EndDate.Date<=StartDate.Date)
-            {
-                ViewBag.ErrorMessage = "End date must be after the sratr date!";
-                return View();
-            }
-            var conflictingReservation = dbContext.Reservations
-                .FirstOrDefault(r =>r.CarId == carId &&
-                r.Status == ReservationStatus.ReservationStatuses.Confirmed &&
-                StartDate.Date < r.EndDate.Date &&
-                EndDate.Date > r.StartDate.Date);
-
-            if (conflictingReservation != null)
-            {
-                ViewBag.ErrorMessage =
-                    "This car is already reserved for the selected dates.";
-
-                return View();
-            }
-
-            var customer = dbContext.Customers.FirstOrDefault(c => c.Email ==Email);
-
-            if (customer==null)
-            {
-                customer = new Customer
-                {
-                    FirstName = FirstName,
-                    LastName = LastName,
-                    Email = Email,
-                    PhoneNumber = phoneNumber
-                };
-                dbContext.Customers.Add(customer);
-
-            }
-            dbContext.SaveChanges();
-
-            int rentDays = (EndDate.Date - StartDate.Date).Days;
-            decimal totalPrice = rentDays * car.PricePerDay;
-
-            var reservation = new Reservation
-            {
-                CarId = carId,
-                CustomerId = customer.Id,
-                StartDate = StartDate,
-                EndDate = EndDate,
-                TotalPrice = totalPrice,
-                Status = ReservationStatus.ReservationStatuses.Pending
-            };
-            dbContext.Reservations.Add(reservation);
-            dbContext.SaveChanges();
-
             return RedirectToAction("Index", "Home");
 
         }
@@ -104,7 +55,7 @@ namespace AutoRentManager.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            var reservationInfo = dbContext.Reservations
+            var reservationInfo = reservationService.GetAll()
                 .Select(r => new ReservationViewModel
                 {
                     Id = r.Id,
@@ -124,13 +75,11 @@ namespace AutoRentManager.Controllers
 
         public IActionResult Confirm(int id) 
         {
-            var reservation = dbContext.Reservations.Find(id);
-            if (reservation==null)
+           
+            if (!reservationService.Confirm(id))
             {
                 return NotFound();
             }
-            reservation.Status = ReservationStatus.ReservationStatuses.Confirmed;
-            dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -139,13 +88,10 @@ namespace AutoRentManager.Controllers
 
         public IActionResult Cancel(int id)
         {
-            var reservation = dbContext.Reservations.Find(id);
-            if (reservation==null)
+            if (!reservationService.Cancel(id))
             {
                 return NotFound();
             }
-            reservation.Status = ReservationStatus.ReservationStatuses.Cancelled;
-            dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
     }

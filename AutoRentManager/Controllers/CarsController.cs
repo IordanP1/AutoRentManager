@@ -1,5 +1,6 @@
 ﻿using AutoRentManager.Data.Data;
 using AutoRentManager.Data.Models;
+using AutoRentManager.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,14 +8,14 @@ namespace AutoRentManager.Controllers
 {
     public class CarsController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
-        public CarsController(ApplicationDbContext context)
+        private readonly ICarService carService;
+        public CarsController(ICarService carService)
         {
-            this.dbContext = context;
+            this.carService = carService;
         }
         public IActionResult Index()
         {
-            var cars  = dbContext.Cars.ToList();
+            var cars  = carService.GetAll();
             return View(cars);
         }
         [HttpGet]
@@ -33,15 +34,13 @@ namespace AutoRentManager.Controllers
             {
                 return View(car);
             }
-            dbContext.Cars.Add(car);
-            dbContext.SaveChanges();
-
+            carService.Add(car);
             return RedirectToAction("Index");
         }
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var car = dbContext.Cars.FirstOrDefault(c => c.Id == id);
+            var car = carService.GetById(id);
             if (car == null)
             {
                 return NotFound();
@@ -52,7 +51,7 @@ namespace AutoRentManager.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
-            var car = dbContext.Cars.Find(id);
+            var car = carService.GetById(id);
             if (car == null)
             {
                 return NotFound();
@@ -72,8 +71,7 @@ namespace AutoRentManager.Controllers
             {
                 return View(car);
             }
-            dbContext.Cars.Update(car);
-            dbContext.SaveChanges();
+            carService.Update(car);
             return RedirectToAction("Index");
         }
 
@@ -81,7 +79,7 @@ namespace AutoRentManager.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
-            var car = dbContext.Cars.Find(id);
+            var car = carService.GetById(id);
             if (car == null)
             {
                 return NotFound();
@@ -92,13 +90,12 @@ namespace AutoRentManager.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteConformation(int id)
         {
-            var car = dbContext.Cars.Find(id);
-            if (car == null)
+           bool isDelleted = carService.Delete(id);
+            if (!isDelleted)
             {
                 return NotFound();
             }
-            dbContext.Cars.Remove(car);
-            dbContext.SaveChanges();
+
             return RedirectToAction("Index");
         }
     }
