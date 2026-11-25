@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AutoRentManager.Data\AutoRentManager.Data.csproj" />
-    <ProjectReference Include="..\AutoRentManager.Services\AutoRentManager.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 <Solution>
   <Project Path="AutoRentManager.Data/AutoRentManager.Data.csproj" Id="f280760e-c936-4eba-9404-67355d23a426" />
-  <Project Path="AutoRentManager.Services/AutoRentManager.Services.csproj" Id="701630d6-4f1b-4acd-951f-fd7715486305" />
+  <Project Path="AutoRentManager.Services/AutoRentManager.Services.csproj" />
   <Project Path="AutoRentManager/AutoRentManager.csproj" />
 </Solution>
