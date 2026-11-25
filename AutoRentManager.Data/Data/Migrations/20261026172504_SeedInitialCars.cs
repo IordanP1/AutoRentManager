@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace AutoRentManager.Data.Migrations
+namespace AutoRentManager.Data.Data.Migrations
 {
     /// <inheritdoc />
     public partial class SeedInitialCars : Migration

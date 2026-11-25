@@ -1,5 +1,5 @@
-﻿using AutoRentManager.Data;
-using AutoRentManager.Models;
+﻿using AutoRentManager.Data.Data;
+using AutoRentManager.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

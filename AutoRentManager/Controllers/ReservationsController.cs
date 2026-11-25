@@ -1,5 +1,6 @@
-﻿using AutoRentManager.Data;
-using AutoRentManager.Models;
+﻿using AutoRentManager.Data.Data;
+using AutoRentManager.Data.Models;
+using AutoRentManager.Data.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoRentManager.Controllers
@@ -53,7 +54,7 @@ namespace AutoRentManager.Controllers
             }
             var conflictingReservation = dbContext.Reservations
                 .FirstOrDefault(r =>r.CarId == carId &&
-                r.Status == AutoRentManager.Enums.ReservationStatus.ReservationStatuses.Confirmed &&
+                r.Status == ReservationStatus.ReservationStatuses.Confirmed &&
                 StartDate.Date < r.EndDate.Date &&
                 EndDate.Date > r.StartDate.Date);
 
@@ -91,7 +92,7 @@ namespace AutoRentManager.Controllers
                 StartDate = StartDate,
                 EndDate = EndDate,
                 TotalPrice = totalPrice,
-                Status = Enums.ReservationStatus.ReservationStatuses.Pending
+                Status = ReservationStatus.ReservationStatuses.Pending
             };
             dbContext.Reservations.Add(reservation);
             dbContext.SaveChanges();
@@ -128,7 +129,7 @@ namespace AutoRentManager.Controllers
             {
                 return NotFound();
             }
-            reservation.Status = Enums.ReservationStatus.ReservationStatuses.Confirmed;
+            reservation.Status = ReservationStatus.ReservationStatuses.Confirmed;
             dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -143,7 +144,7 @@ namespace AutoRentManager.Controllers
             {
                 return NotFound();
             }
-            reservation.Status = Enums.ReservationStatus.ReservationStatuses.Cancelled;
+            reservation.Status = ReservationStatus.ReservationStatuses.Cancelled;
             dbContext.SaveChanges();
             return RedirectToAction("Index");
         }

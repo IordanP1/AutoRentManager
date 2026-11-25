@@ -1,8 +1,8 @@
-﻿@model IEnumerable<AutoRentManager.Models.Car>
+﻿@model IEnumerable<AutoRentManager.Data.Models.Car>
 
 @{
     ViewData["Title"] = "Our Cars";
-    var cars = Model?.ToList() ?? new List<AutoRentManager.Models.Car>();
+    var cars = Model?.ToList() ?? new List<AutoRentManager.Data.Models.Car>();
 }
 
 <div class="cars-page">

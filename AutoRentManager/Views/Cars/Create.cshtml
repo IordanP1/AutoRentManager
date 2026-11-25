@@ -1,4 +1,4 @@
-﻿@model AutoRentManager.Models.Car
+﻿@model AutoRentManager.Data.Models.Car
 
 @{
     ViewData["Title"] = "Add New Car";
@@ -82,7 +82,7 @@
                                        class="form-label fw-semibold"></label>
                                 <select asp-for="Category"
                                         class="form-select"
-                                        asp-items="Html.GetEnumSelectList<AutoRentManager.Enums.CarCategoryType.CarCategoryTypes>()">
+                                        asp-items="Html.GetEnumSelectList<AutoRentManager.Data.Enums.CarCategoryType.CarCategoryTypes>()">
                                     <option value="">Select category</option>
                                 </select>
                                 <span asp-validation-for="Category"
@@ -94,7 +94,7 @@
                                        class="form-label fw-semibold"></label>
                                 <select asp-for="FuelType"
                                         class="form-select"
-                                        asp-items="Html.GetEnumSelectList<AutoRentManager.Enums.FuelType.FuelTypes>()">
+                                        asp-items="Html.GetEnumSelectList<AutoRentManager.Data.Enums.FuelType.FuelTypes>()">
                                     <option value="">Select fuel type</option>
                                 </select>
                                 <span asp-validation-for="FuelType"
@@ -106,7 +106,7 @@
                                        class="form-label fw-semibold"></label>
                                 <select asp-for="TransmissionType"
                                         class="form-select"
-                                        asp-items="Html.GetEnumSelectList<AutoRentManager.Enums.TransmissionType.TransmissionTypes>()">
+                                        asp-items="Html.GetEnumSelectList<AutoRentManager.Data.Enums.TransmissionType.TransmissionTypes>()">
                                     <option value="">Select transmission</option>
                                 </select>
                                 <span asp-validation-for="TransmissionType"
@@ -181,4 +181,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-```

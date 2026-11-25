@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AutoRentManager.Data.Migrations
+namespace AutoRentManager.Data.Data.Migrations
 {
     /// <inheritdoc />
     public partial class AddCarCustomerReservationModels : Migration

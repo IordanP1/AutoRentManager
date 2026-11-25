@@ -1,4 +1,4 @@
-﻿namespace AutoRentManager.Enums
+﻿namespace AutoRentManager.Data.Enums
 {
     public class TransmissionType
     {

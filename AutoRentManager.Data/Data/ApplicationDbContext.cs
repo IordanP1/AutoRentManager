@@ -1,11 +1,11 @@
-﻿using AutoRentManager.Models;
+﻿using AutoRentManager.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using static AutoRentManager.Enums.CarCategoryType;
-using static AutoRentManager.Enums.FuelType;
-using static AutoRentManager.Enums.TransmissionType;
+using static AutoRentManager.Data.Enums.CarCategoryType;
+using static AutoRentManager.Data.Enums.FuelType;
+using static AutoRentManager.Data.Enums.TransmissionType;
 
-namespace AutoRentManager.Data
+namespace AutoRentManager.Data.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

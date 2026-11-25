@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AutoRentManager.Models
+namespace AutoRentManager.Data.Models
 {
-    using static Common.ValidationConstants;
+    using static AutoRentManager.Data.Common.ValidationConstants;
     public class Customer
     {
         [Key]

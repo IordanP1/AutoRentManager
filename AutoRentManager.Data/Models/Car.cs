@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AutoRentManager.Models
+namespace AutoRentManager.Data.Models
 {
-    using static Common.ValidationConstants;
-    using static Enums.CarCategoryType;
-    using static Enums.FuelType;
-    using static Enums.TransmissionType;
+    using static AutoRentManager.Data.Common.ValidationConstants;
+    using static AutoRentManager.Data.Enums.CarCategoryType;
+    using static AutoRentManager.Data.Enums.FuelType;
+    using static AutoRentManager.Data.Enums.TransmissionType;
 
     public class Car
     {

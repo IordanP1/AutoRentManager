@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AutoRentManager.Models
+namespace AutoRentManager.Data.Models
 {
-    using Enums;
     using System.ComponentModel.DataAnnotations.Schema;
-    using static Common.ValidationConstants;
-    using static Enums.ReservationStatus;
+    using static AutoRentManager.Data.Common.ValidationConstants;
+    using static AutoRentManager.Data.Enums.ReservationStatus;
 
     public class Reservation
     {

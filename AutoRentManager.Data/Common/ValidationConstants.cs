@@ -1,4 +1,4 @@
-﻿namespace AutoRentManager.Common
+﻿namespace AutoRentManager.Data.Common
 {
     public class ValidationConstants
     {
